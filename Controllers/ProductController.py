@@ -16,8 +16,4 @@ class ProductControler(Resource):
         return Product.remove(product_id), 204
 
     def update(self, product_id):
-        model = request.model
-        quantity = request.quantity
-        price = request.price
-
-        return Product.update({'model': model, 'quantity': quantity, 'price': price}, product_id), 204
+        return Product.update(request, product_id), 204
