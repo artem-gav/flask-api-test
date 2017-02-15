@@ -14,5 +14,5 @@ def add(params):
 def update(params, product_id):
     return products.update(params, {'_id': Model.ObjectId(product_id)})
 
-def remove(id):
-    return products.remove({'_id': Model.ObjectId(id)})
+def remove(product_id):
+    return products.remove({'_id': Model.ObjectId(product_id)})
