@@ -1,16 +1,12 @@
-from flask import make_response
 from flask_restful import Resource, reqparse
 from Models import Product
+from Models.Product import validator
 
-parser = reqparse.RequestParser()
-
-parser.add_argument('model')
-parser.add_argument('quantity')
-parser.add_argument('price')
+parser = validator()
 
 class ProductListControler(Resource):
     def get(self):
-        return make_response(Product.getAll(), 200)
+        return Product.getAll()
 
     def post(self):
         args = parser.parse_args()
