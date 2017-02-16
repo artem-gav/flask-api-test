@@ -9,10 +9,10 @@ ObjectId = ObjectId
 client = MongoClient()
 db = client.api_test_db
 
-def response(response, status=200):
+def response(response, status=200, headers={'Content-Type': 'application/json'}):
     response = toJson(response)
     response = make_response(response, status)
-    response.headers['Content-Type'] = 'application/json'
+    response.headers.extend(headers)
 
     return response
 

@@ -10,15 +10,15 @@ class ProductListControler(Resource):
 
     def post(self):
         args = parser.parse_args()
-        return Product.add(args), 200
+        return Product.add(args)
 
 class ProductControler(Resource):
     def get(self, product_id):
-        return Product.get(product_id), 200
+        return Product.get(product_id)
 
     def delete(self, product_id):
-        return Product.remove(product_id), 204
+        return Product.remove(product_id)
 
     def put(self, product_id):
         args = parser.parse_args()
-        return Product.update(args, product_id), 204
+        return Product.update(args, product_id)
