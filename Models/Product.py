@@ -1,10 +1,12 @@
 import Model
 from Model import response, ObjectId
-from flask_restful import reqparse
+from flask_restful import request, reqparse
 
 products = Model.db.products
 
 def getAll():
+    where = request.args['where']
+    return where
     return response(products.find())
 
 def get(product_id):
@@ -22,8 +24,10 @@ def remove(product_id):
 def validator():
     parser = reqparse.RequestParser()
 
-    parser.add_argument('model')
-    parser.add_argument('quantity')
-    parser.add_argument('price')
+    parser.add_argument('model', location='args')
+    parser.add_argument('quantity', type=int, location='args')
+    parser.add_argument('price', location='args')
+
+    # parser.add_argument('where', location='json')
 
     return parser

@@ -1,6 +1,6 @@
-from flask import Flask, request, render_template
-from Controllers.ProductController import ProductControler, ProductListControler
+from flask import Flask, current_app, g
 from flask_restful import Api
+from Controllers.ProductController import ProductControler, ProductListControler
 
 app = Flask(__name__)
 api = Api(app)
