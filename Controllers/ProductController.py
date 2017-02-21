@@ -1,5 +1,7 @@
 from flask_restful import Resource
+from flask import abort
 from Models import Product
+from Models.Model import ObjectId, removeNoneElementArray
 from Models.Product import validator_put, validator_list_get, validator_list_post, validator_get
 
 class ProductListControler(Resource):
@@ -17,6 +19,9 @@ class ProductListControler(Resource):
 
 class ProductControler(Resource):
     def get(self, product_id):
+        if not ObjectId.is_valid(product_id):
+            return None
+
         parser = validator_get()
 
         args = parser.parse_args()
@@ -29,4 +34,6 @@ class ProductControler(Resource):
         parser = validator_put()
 
         args = parser.parse_args()
+        args = removeNoneElementArray(args)
+
         return Product.update(product_id, args)
