@@ -1,6 +1,6 @@
 import Model
 from Model import response, ObjectId, strToJson
-from flask_restful import request, reqparse
+from flask_restful import reqparse
 
 products = Model.db.products
 
@@ -26,8 +26,8 @@ def add(params):
     result = products.insert(params)
     return response(result)
 
-def update(params, product_id):
-    result = products.update(params, {'_id': ObjectId(product_id)})
+def update(product_id, params):
+    result = products.update({'_id': ObjectId(product_id)}, params)
     return response(result)
 
 def remove(product_id):

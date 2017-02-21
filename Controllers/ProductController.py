@@ -1,8 +1,6 @@
 from flask_restful import Resource
 from Models import Product
 from Models.Product import validator_put, validator_list_get, validator_list_post, validator_get
-from Models.Model import strToJson
-import json
 
 class ProductListControler(Resource):
     def get(self):
@@ -22,7 +20,6 @@ class ProductControler(Resource):
         parser = validator_get()
 
         args = parser.parse_args()
-
         return Product.get(product_id, args)
 
     def delete(self, product_id):
@@ -32,4 +29,4 @@ class ProductControler(Resource):
         parser = validator_put()
 
         args = parser.parse_args()
-        return Product.update(args, product_id)
+        return Product.update(product_id, args)

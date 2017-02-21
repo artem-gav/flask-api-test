@@ -1,4 +1,4 @@
-from flask import Flask, current_app, g
+from flask import Flask
 from flask_restful import Api
 from Controllers.ProductController import ProductControler, ProductListControler
 
