@@ -5,27 +5,15 @@ from flask_restful import request, reqparse
 products = Model.db.products
 
 def getAll(args):
-    if args.filters is not None:
-        filters = strToJson(args.filters)
-    else:
-        filters = None
+    validator_filters = Model.validator_filters(args)
 
-    if args.fields is not None:
-        fields = strToJson(args.fields)
-    else:
-        fields = None
-
-    if args.sort is not None:
-        sort = strToJson(args.sort)
-    else:
-        sort = [("_id", -1)]
-
-    if args.limit is not None:
-        limit = int(args.limit)
-    else:
-        limit = 0
-
-    return response(products.find(filters, fields).sort(sort).limit(limit))
+    return response(
+                products
+                    .find(validator_filters.filters, validator_filters.fields)
+                    .sort(validator_filters.sort)
+                    .skip(validator_filters.skip)
+                    .limit(validator_filters.limit)
+            )
 
 def get(product_id):
     return response(products.find_one({'_id': ObjectId(product_id)}))

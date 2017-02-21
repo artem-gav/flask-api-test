@@ -10,6 +10,7 @@ class ProductListControler(Resource):
         parser.add_argument('filters', default=None)
         parser.add_argument('fields', default=None)
         parser.add_argument('limit', default=0)
+        parser.add_argument('skip', default=0)
 
         args = parser.parse_args()
         return Product.getAll(args)
