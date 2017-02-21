@@ -6,7 +6,13 @@ parser = validator()
 
 class ProductListControler(Resource):
     def get(self):
-        return Product.getAll()
+        parser.add_argument('sort')
+        parser.add_argument('filters', default=None)
+        parser.add_argument('fields', default=None)
+        parser.add_argument('limit', default=0)
+
+        args = parser.parse_args()
+        return Product.getAll(args)
 
     def post(self):
         args = parser.parse_args()

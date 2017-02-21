@@ -2,6 +2,7 @@ from flask import make_response
 from pymongo import MongoClient
 from bson import json_util
 from bson.objectid import ObjectId
+import json
 
 # init function ObjectId from Model
 ObjectId = ObjectId
@@ -18,3 +19,7 @@ def response(response, status=200, headers={'Content-Type': 'application/json'})
 
 def toJson(data):
     return json_util.dumps(data, sort_keys=True, indent=4, default=json_util.default)
+
+def strToJson(data):
+    data = data.replace("'", '"')
+    return json.loads(data)
