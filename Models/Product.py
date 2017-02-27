@@ -1,5 +1,5 @@
 import Model
-from Model import response, ObjectId, strToJson, is_valid
+from Model import response, ObjectId, strToJson, strToList, is_valid
 from flask_restful import reqparse, abort
 
 products = Model.db.products
@@ -8,7 +8,7 @@ parser = reqparse.RequestParser()
 def getAll(args):
 
     if args.sort is not None:
-        sort = strToJson(args.sort)
+        sort = strToList(args.sort)
     else:
         sort = [("_id", -1)]
 
@@ -50,11 +50,13 @@ def validator_list_post():
     parser.add_argument('code', type=str, required=True, location='form')
     parser.add_argument('description', type=str, required=True, location='form')
     parser.add_argument('name', type=str, required=True, location='form')
-    parser.add_argument('params', type=list, required=True, location='form')
     parser.add_argument('price', type=float, required=True, location='form')
     parser.add_argument('source_id', type=int, required=True, location='form')
     parser.add_argument('variant', type=int, required=True, location='form')
     parser.add_argument('vat', type=int, required=True, location='form')
+
+    # parser.add_argument('params_colour', type=str, location='form')
+    # parser.add_argument('params_size', type=str, location='form')
 
     return parser
 
@@ -62,11 +64,13 @@ def validator_put():
     parser.add_argument('code', type=str, location='form')
     parser.add_argument('description', type=str, location='form')
     parser.add_argument('name', type=str, location='form')
-    parser.add_argument('params', type=list, location='form')
     parser.add_argument('price', type=float, location='form')
     parser.add_argument('source_id', type=int, location='form')
     parser.add_argument('variant', type=int, location='form')
     parser.add_argument('vat', type=int, location='form')
+
+    # parser.add_argument('params_colour', type=str, location='form')
+    # parser.add_argument('params_size', type=str, location='form')
 
     return parser
 

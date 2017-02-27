@@ -3,12 +3,13 @@ from pymongo import MongoClient
 from bson import json_util
 from bson.objectid import ObjectId, InvalidId
 import json
+import ast
 
 # init function ObjectId from Model
 ObjectId = ObjectId
 
 client = MongoClient()
-db = client.api_test_db
+db = client.gatta
 
 def response(response, status=200, headers={'Content-Type': 'application/json'}):
     response = toJson(response)
@@ -26,6 +27,14 @@ def strToJson(data):
 
     data = data.replace("'", '"')
     return json.loads(data)
+
+def strToList(data):
+    if data is None:
+        return None
+
+    data = ast.literal_eval(data)
+
+    return data
 
 def removeNoneElementArray(data):
     for x in list(data.keys()):
