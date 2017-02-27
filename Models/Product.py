@@ -39,7 +39,7 @@ def remove(product_id):
 # Validators for request params
 def validator_list_get():
     parser.add_argument('sort', default=None, type=str)
-    parser.add_argument('filters', default=None, type=str)
+    parser.add_argument('filters', default=None, type=unicode)
     parser.add_argument('fields', default=None, type=str)
     parser.add_argument('limit', default=0, type=int)
     parser.add_argument('skip', default=0, type=int)
