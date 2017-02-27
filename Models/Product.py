@@ -21,7 +21,8 @@ def getAll(args):
             )
 
 def get(product_id, args):
-    return products.find_one({'_id': ObjectId(product_id)}, strToJson(args.fields))
+    result = products.find_one({'_id': ObjectId(product_id)}, strToJson(args.fields))
+    return response(result)
 
 def add(params):
     result = products.insert(params)
@@ -46,16 +47,26 @@ def validator_list_get():
     return parser
 
 def validator_list_post():
-    parser.add_argument('model', type=str, required=True, location='form')
-    parser.add_argument('quantity', type=int, required=True, location='form')
+    parser.add_argument('code', type=str, required=True, location='form')
+    parser.add_argument('description', type=str, required=True, location='form')
+    parser.add_argument('name', type=str, required=True, location='form')
+    parser.add_argument('params', type=list, required=True, location='form')
     parser.add_argument('price', type=float, required=True, location='form')
+    parser.add_argument('source_id', type=int, required=True, location='form')
+    parser.add_argument('variant', type=int, required=True, location='form')
+    parser.add_argument('vat', type=int, required=True, location='form')
 
     return parser
 
 def validator_put():
-    parser.add_argument('model', type=str, location='form')
-    parser.add_argument('quantity', type=int, location='form')
+    parser.add_argument('code', type=str, location='form')
+    parser.add_argument('description', type=str, location='form')
+    parser.add_argument('name', type=str, location='form')
+    parser.add_argument('params', type=list, location='form')
     parser.add_argument('price', type=float, location='form')
+    parser.add_argument('source_id', type=int, location='form')
+    parser.add_argument('variant', type=int, location='form')
+    parser.add_argument('vat', type=int, location='form')
 
     return parser
 
