@@ -21,13 +21,6 @@ def response(response, status=200, headers={'Content-Type': 'application/json'})
 def toJson(data):
     return json_util.dumps(data, sort_keys=True, indent=4, default=json_util.default)
 
-def strToJson(data):
-    if data is None:
-        return None
-
-    data = data.replace("'", '"')
-    return json.loads(data)
-
 def strToList(data):
     if data is None:
         return None

@@ -1,5 +1,5 @@
 import Model
-from Model import response, ObjectId, strToJson, strToList, is_valid
+from Model import response, ObjectId, strToList, is_valid
 from flask_restful import reqparse, abort
 
 products = Model.db.products
@@ -14,14 +14,14 @@ def getAll(args):
 
     return response(
                 products
-                    .find(strToJson(args.filters), strToJson(args.fields))
+                    .find(strToList(args.filters), strToList(args.fields))
                     .sort(sort)
                     .skip(int(args.skip))
                     .limit(int(args.limit))
             )
 
 def get(product_id, args):
-    result = products.find_one({'_id': ObjectId(product_id)}, strToJson(args.fields))
+    result = products.find_one({'_id': ObjectId(product_id)}, strToList(args.fields))
     return response(result)
 
 def add(params):
