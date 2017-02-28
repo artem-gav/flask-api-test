@@ -12,7 +12,7 @@ fields = {
     'variant': {'type': int, 'help': 'variant'},
     'vat': {'type': int, 'help': 'vat'},
     'params': {'type': dict, 'help': 'params'},
-    'color': {'type': str, 'help': 'color', 'location': 'params'},
+    'colour': {'type': str, 'help': 'colour', 'location': 'params'},
     'size': {'type': str, 'help': 'size', 'location': 'params'}
 }
 
