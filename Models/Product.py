@@ -1,6 +1,28 @@
 import Model
 from Model import response, ObjectId, strToList, is_valid
 from flask_restful import reqparse, abort
+import logging
+
+fields = {
+    'code': {'type': str},
+    'description': {'type': str, 'help': 'description'},
+    'name': {'type': str, 'help': 'name'},
+    'price': {'type': float, 'help': 'price'},
+    'source_id': {'type': int, 'help': 'source_id'},
+    'variant': {'type': int, 'help': 'variant'},
+    'vat': {'type': int, 'help': 'vat'},
+    'params': {'type': dict, 'help': 'params'},
+    'color': {'type': str, 'help': 'color', 'location': 'params'},
+    'size': {'type': str, 'help': 'size', 'location': 'params'}
+}
+
+validators = {
+    'sort': {'default': None, 'type': str},
+    'filters': {'default': None, 'type': unicode},
+    'fields': {'default': None, 'type': str},
+    'limit': {'default': 0, 'type': int},
+    'skip': {'default': 0, 'type': int}
+}
 
 products = Model.db.products
 parser = reqparse.RequestParser()
@@ -38,39 +60,35 @@ def remove(product_id):
 
 # Validators for request params
 def validator_list_get():
-    parser.add_argument('sort', default=None, type=str)
-    parser.add_argument('filters', default=None, type=unicode)
-    parser.add_argument('fields', default=None, type=str)
-    parser.add_argument('limit', default=0, type=int)
-    parser.add_argument('skip', default=0, type=int)
+    for (title, params) in validators.items():
+        parser.add_argument(title, default=params['default'], type=params['type'])
 
     return parser
 
 def validator_list_post():
-    parser.add_argument('code', type=str, required=True, location='form')
-    parser.add_argument('description', type=str, required=True, location='form')
-    parser.add_argument('name', type=str, required=True, location='form')
-    parser.add_argument('price', type=float, required=True, location='form')
-    parser.add_argument('source_id', type=int, required=True, location='form')
-    parser.add_argument('variant', type=int, required=True, location='form')
-    parser.add_argument('vat', type=int, required=True, location='form')
+    for (title, params) in fields.items():
+        required = params['required'] if 'required' in params else True
+        help = params['help'] if 'help' in params else None
 
-    # parser.add_argument('params_colour', type=str, location='form')
-    # parser.add_argument('params_size', type=str, location='form')
+        if 'location' not in params:
+            parser.add_argument(title, type=params['type'], required=required, help=help, location=['form', 'json'])
+        else:
+            # parameters `params` variable
+            params_parser = reqparse.RequestParser()
+            params_parser.add_argument(title, type=params['type'], required=required, help=help, location=params['location'])
 
     return parser
 
 def validator_put():
-    parser.add_argument('code', type=str, location='form')
-    parser.add_argument('description', type=str, location='form')
-    parser.add_argument('name', type=str, location='form')
-    parser.add_argument('price', type=float, location='form')
-    parser.add_argument('source_id', type=int, location='form')
-    parser.add_argument('variant', type=int, location='form')
-    parser.add_argument('vat', type=int, location='form')
+    for (title, params) in fields.items():
+        help = params['help'] if 'help' in params else None
 
-    # parser.add_argument('params_colour', type=str, location='form')
-    # parser.add_argument('params_size', type=str, location='form')
+        if 'location' not in params:
+            parser.add_argument(title, type=params['type'], help=help, location=['form', 'json'])
+        else:
+            # parameters `params` variable
+            params_parser = reqparse.RequestParser()
+            params_parser.add_argument(title, type=params['type'], help=help, location=params['location'])
 
     return parser
 
