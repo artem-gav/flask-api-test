@@ -28,16 +28,12 @@ products = Model.db.products
 parser = reqparse.RequestParser()
 
 def getAll(args):
-
-    if args.sort is not None:
-        sort = strToList(args.sort)
-    else:
-        sort = [("_id", -1)]
+    sort = strToList(args.sort) if args.sort is not None else [("_id", -1)]
 
     return response(
                 products
                     .find(strToList(args.filters), strToList(args.fields))
-                    .sort(sort)
+                    .sort(sort.items())
                     .skip(int(args.skip))
                     .limit(int(args.limit))
             )
