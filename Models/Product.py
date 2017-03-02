@@ -28,7 +28,7 @@ products = Model.db.products
 parser = reqparse.RequestParser()
 
 def getAll(args):
-    sort = strToList(args.sort) if args.sort is not None else [("_id", -1)]
+    sort = strToList(args.sort) if args.sort is not None else {'_id':-1}
 
     return response(
                 products
