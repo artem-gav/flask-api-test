@@ -1,0 +1,18 @@
+version: '2'
+services:
+
+  python:
+    build: ./build/python
+    volumes:
+      - .:/app
+    ports:
+      - 80:5000
+    links:
+      - mongo
+
+  mongo:
+    build: ./build/mongo
+    volumes:
+      - ./build/mongo/db:/data/db
+    ports:
+      - 27017:27017

@@ -2,13 +2,15 @@ from flask import make_response
 from pymongo import MongoClient
 from bson import json_util
 from bson.objectid import ObjectId, InvalidId
+from config import env
+
 import json
 import ast
 
 # init function ObjectId from Model
 ObjectId = ObjectId
 
-client = MongoClient()
+client = MongoClient(env('DB_HOST'), int(env('DB_PORT')))
 db = client.gatta
 
 def response(response, status=200, headers={'Content-Type': 'application/json'}):
